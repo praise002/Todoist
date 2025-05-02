@@ -22,6 +22,7 @@ import TodoItem from './TodoItem.tsx';
 
 import Spinner from './Spinner.tsx';
 import { Todo } from '../types.ts';
+import toast from 'react-hot-toast';
 
 const filterObj = {
   all: {
@@ -85,6 +86,7 @@ function TodoList() {
     const remainingTodos = todos.filter((todo) => !todo.completed);
     setTodos(remainingTodos);
     saveTodos(remainingTodos);
+    toast.success('Completed tasks cleared Successfully');
     console.log(remainingTodos);
   }
 
@@ -111,6 +113,7 @@ function TodoList() {
     const remainingTodos = todos.filter((todo) => id !== todo.id);
     setTodos(remainingTodos);
     saveTodos(remainingTodos);
+    toast.success('Deleted task Successfully');
     console.log(remainingTodos);
   }
 

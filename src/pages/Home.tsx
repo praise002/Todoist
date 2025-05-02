@@ -1,11 +1,11 @@
-import TodoList from "../components/TodoList.js";
+import TodoList from '../components/TodoList.tsx';
 
 function Home() {
-    return (
-        <div className="relative">
-            <TodoList />
-        </div>
-    );
+  return (
+    <div className="relative">
+      <TodoList />
+    </div>
+  );
 }
 
 export default Home;

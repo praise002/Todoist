@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
+import BackgroundImage from "../components/BackgroundImage";
+import Footer from "./Footer";
 
-import Footer from "./Footer.js";
-import BackgroundImage from "../components/BackgroundImage.js";
 
 function AppLayout() {
     return (

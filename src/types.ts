@@ -16,14 +16,6 @@ export interface Todo {
   completed: boolean;
 }
 
-// handleFilterChange: (filterName: string) => void;
-//   clearCompleted(): void;
-
-// export interface TodoProps extends Todo {
-//   handleFilterChange: (filterName: string) => void;
-//   clearCompleted: () => void;
-// }
-
 export interface FormProps {
   addTodo: (todo: string) => void;
 }
@@ -33,3 +25,16 @@ export interface TodoItemProps {
   onToggleTaskCompleted: (id: string) => void;
   onDeleteTask: (id: string) => void;
 }
+
+export type RegisterInputs = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type LoginInputs = {
+  email: string;
+  password: string;
+};
+
+// hU8zWD8obsxShs3g
