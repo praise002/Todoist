@@ -142,7 +142,7 @@ function TodoList() {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto -mt-40">
+    <div className="w-full max-w-lg mx-auto -mt-50">
       <Header />
       <Form addTodo={addTodo} />
       <div className="rounded-md shadow-md bg-white dark:bg-[#25273C]">

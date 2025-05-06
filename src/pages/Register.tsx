@@ -2,16 +2,31 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { FiMail, FiLock, FiUser } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { RegisterInputs } from '../types';
+import { useSignup } from '../hooks/useSignUp';
 
 function Register() {
+  const { signup, isPending } = useSignup();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<RegisterInputs>();
 
   const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
     console.log(data);
+    signup(
+      {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSettled: () => {
+          reset();
+        },
+      }
+    );
   };
 
   return (
@@ -57,6 +72,7 @@ function Register() {
                     message: 'Name must be at least 2 characters',
                   },
                 })}
+                disabled={isPending}
               />
             </div>
             {errors.name && (
@@ -86,6 +102,7 @@ function Register() {
                     message: 'Invalid email address',
                   },
                 })}
+                disabled={isPending}
               />
             </div>
             {errors.email && (
@@ -117,6 +134,7 @@ function Register() {
                     message: 'Password must be at least 8 characters',
                   },
                 })}
+                disabled={isPending}
               />
             </div>
             {errors.password && (
@@ -131,8 +149,9 @@ function Register() {
             <button
               type="submit"
               className="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              disabled={isPending}
             >
-              Create Account
+              {isPending ? 'Creating Account' : 'Create Account'}
             </button>
           </div>
         </form>

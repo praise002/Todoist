@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AppLayout from './Layouts/AppLayout';
+import Logout from './pages/Logout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,11 +24,19 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Home />} />
             </Route>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="logout" element={<Logout />} />
+            {/* Might need to move out logout somewhere else cos it has to be protected */}
           </Routes>
         </BrowserRouter>
         <Toaster

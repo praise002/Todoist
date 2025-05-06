@@ -37,4 +37,12 @@ export type LoginInputs = {
   password: string;
 };
 
+export interface User {
+  name: string;
+}
+
+export interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
 // hU8zWD8obsxShs3g

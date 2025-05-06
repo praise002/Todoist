@@ -2,20 +2,31 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { LoginInputs } from '../types';
+import { useLogin } from '../hooks/useLogin';
+import Spinner from '../components/Spinner';
 
 function Login() {
+  const { login, isPending } = useLogin();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
+    reset,
   } = useForm<LoginInputs>();
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     console.log(data);
+    if (!data.email || !data.password) return;
+    login(
+      { email: data.email, password: data.password },
+      {
+        onSettled: () => {
+          reset();
+        },
+      }
+    );
   };
 
-  console.log(watch('email'));
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
@@ -59,6 +70,7 @@ function Login() {
                     message: 'Invalid email address',
                   },
                 })}
+                disabled={isPending}
               />
             </div>
             {errors.email && (
@@ -90,6 +102,7 @@ function Login() {
                     message: 'Password must be at least 8 characters',
                   },
                 })}
+                disabled={isPending}
               />
             </div>
             {errors.password && (
@@ -131,8 +144,9 @@ function Login() {
             <button
               type="submit"
               className="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              disabled={isPending}
             >
-              Sign in
+              {isPending ? <Spinner /> : 'Sign in'}
             </button>
           </div>
         </form>
