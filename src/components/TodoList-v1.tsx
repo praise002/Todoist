@@ -23,10 +23,6 @@ import TodoItem from './TodoItem.tsx';
 import Spinner from './Spinner.tsx';
 import { Todo } from '../types.ts';
 import toast from 'react-hot-toast';
-import { useTodos } from '../hooks/useTodos.ts';
-import { useCreateTodo } from '../hooks/useCreateTodo.ts';
-import { useEditTodo } from '../hooks/useEditTodo.ts';
-import { useDeleteTodo } from '../hooks/useDeleteTodo.ts';
 
 const filterObj = {
   all: {
@@ -54,14 +50,14 @@ console.log(Object.keys(filterObj));
 console.log(Object.values(filterObj));
 
 function TodoList() {
-  const { isPending, todos } = useTodos();
-  const { isCreating, createTodo } = useCreateTodo();
-  const { isEditing, editTodo } = useEditTodo();
-  const { isDeleting, deleteTodo } = useDeleteTodo();
-
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('All');
 
   const filteredTodos = todos.filter(FILTER_MAP[filter]);
+  // filter_map['All']
+  // console.log(FILTER_MAP[filter]); returns the fnction
+  // console.log(todos.filter((todo) => !todo.completed));
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -69,6 +65,14 @@ function TodoList() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  useEffect(() => {
+    const storedTodos = loadTodos();
+    setTodos(storedTodos);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
   const incompleteTodos = useMemo(() => {
     return todos.filter((todo) => !todo.completed).length;
@@ -87,8 +91,13 @@ function TodoList() {
   }
 
   function addTodo(text: string) {
-    const newTodo = { text, completed: false };
-    createTodo({ newTodo });
+    const newTask = { id: crypto.randomUUID(), text, completed: false };
+    // setTodo((prevTodos) => [...prevTodos, newTask]);
+    setTodos((prevTodos) => {
+      const newTodos = [newTask, ...prevTodos];
+      saveTodos(newTodos);
+      return newTodos;
+    });
   }
 
   function toggleTaskCompleted(id: string) {
@@ -137,7 +146,7 @@ function TodoList() {
       <Header />
       <Form addTodo={addTodo} />
       <div className="rounded-md shadow-md bg-white dark:bg-[#25273C]">
-        {isPending ? (
+        {isLoading ? (
           <Spinner />
         ) : (
           <DndContext

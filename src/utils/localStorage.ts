@@ -1,19 +1,19 @@
 import toast from 'react-hot-toast';
-import TODOS from './todos.js';
+import { Todo } from '../types';
 
 const STORAGE_KEY = 'todos';
 
-export function saveTodos(todos) {
+export function saveTodos(todos: Todo[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
 }
 
-export function loadTodos() {
-  let todos;
+export function loadTodos(): Todo[] {
   try {
-    todos = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const storedTodos = localStorage.getItem(STORAGE_KEY);
+    return storedTodos ? JSON.parse(storedTodos) : [];
   } catch (error) {
     console.error('Error loading todos from localStorage:', error);
     toast.error('Error loading todos from localStorage');
+    return [];
   }
-  return todos ? todos : TODOS;
 }

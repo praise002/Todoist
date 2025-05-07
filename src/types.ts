@@ -16,6 +16,8 @@ export interface Todo {
   completed: boolean;
 }
 
+export type NewTodo = Omit<Todo, 'id'>;
+
 export interface FormProps {
   addTodo: (todo: string) => void;
 }
@@ -44,5 +46,10 @@ export interface User {
 export interface ProtectedRouteProps {
   children: React.ReactNode;
 }
+
+export type CreateTodoParams = {
+  newTodo: NewTodo;
+  id: string;
+};
 
 // hU8zWD8obsxShs3g

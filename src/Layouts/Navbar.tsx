@@ -1,14 +1,15 @@
-import { FiEdit2, FiLogOut } from 'react-icons/fi';
+import { FiEdit2 } from 'react-icons/fi';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import { useUpdateUser } from '../hooks/useUpdateUser';
 import { useUser } from '../hooks/useUser';
+import Logout from '../pages/Logout';
 
 function Navbar() {
   const { user } = useUser();
   const { updateUser, isUpdating } = useUpdateUser();
   const [name, setName] = useState(
-    user?.user_metadata.displayName || 'John Doe'
+    user?.user_metadata.displayName || ''
   );
   const [isEditing, setIsEditing] = useState(false);
 
@@ -68,15 +69,7 @@ function Navbar() {
           </div>
         )}
 
-        <button type="button">
-          <Link
-            to="/logout"
-            className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-          >
-            <FiLogOut className="h-4 w-4" />
-            <span>Logout</span>
-          </Link>
-        </button>
+        <Logout />
       </div>
     </div>
   );
