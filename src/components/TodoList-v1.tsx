@@ -91,7 +91,7 @@ function TodoList() {
   }
 
   function addTodo(text: string) {
-    const newTask = { id: crypto.randomUUID(), text, completed: false };
+    const newTask = { id: crypto.randomUUID(), todo, completed: false };
     // setTodo((prevTodos) => [...prevTodos, newTask]);
     setTodos((prevTodos) => {
       const newTodos = [newTask, ...prevTodos];

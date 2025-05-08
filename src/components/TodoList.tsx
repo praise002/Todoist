@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-import { loadTodos, saveTodos } from '../utils/localStorage.ts';
-import { useEffect } from 'react';
+
 import {
   DndContext,
   closestCenter,
@@ -22,11 +21,12 @@ import TodoItem from './TodoItem.tsx';
 
 import Spinner from './Spinner.tsx';
 import { Todo } from '../types.ts';
-import toast from 'react-hot-toast';
+
 import { useTodos } from '../hooks/useTodos.ts';
 import { useCreateTodo } from '../hooks/useCreateTodo.ts';
 import { useEditTodo } from '../hooks/useEditTodo.ts';
 import { useDeleteTodo } from '../hooks/useDeleteTodo.ts';
+import { useDeleteCompletedTodos } from '../hooks/usedeleteCompletedTodos.ts';
 
 const filterObj = {
   all: {
@@ -54,10 +54,11 @@ console.log(Object.keys(filterObj));
 console.log(Object.values(filterObj));
 
 function TodoList() {
-  const { isPending, todos } = useTodos();
+  const { isPending, todos = [] } = useTodos();
   const { isCreating, createTodo } = useCreateTodo();
   const { isEditing, editTodo } = useEditTodo();
-  const { isDeleting, deleteTodo } = useDeleteTodo();
+  const { deleteTodo } = useDeleteTodo();
+  const { clearCompletedTodos } = useDeleteCompletedTodos();
 
   const [filter, setFilter] = useState('All');
 
@@ -79,38 +80,32 @@ function TodoList() {
   }
 
   function clearCompleted() {
-    const remainingTodos = todos.filter((todo) => !todo.completed);
-    setTodos(remainingTodos);
-    saveTodos(remainingTodos);
-    toast.success('Completed tasks cleared Successfully');
-    console.log(remainingTodos);
+    if (clearCompletedTodos) {
+      clearCompletedTodos();
+    }
   }
 
-  function addTodo(text: string) {
-    const newTodo = { text, completed: false };
+  function addTodo(todo: string) {
+    const newTodo = { todo, completed: false };
     createTodo({ newTodo });
   }
 
   function toggleTaskCompleted(id: string) {
-    const updatedTodos = todos.map((todo) =>
-      id === todo.id ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(updatedTodos);
-    saveTodos(updatedTodos);
-    console.log(updatedTodos);
+    const todo = todos.find((t) => t.id == id);
+    if (!todo) return;
+    editTodo({
+      newTodo: { ...todo, completed: !todo.completed },
+      id: todo.id,
+    });
   }
 
-  function deleteTodo(id: string) {
-    const remainingTodos = todos.filter((todo) => id !== todo.id);
-    setTodos(remainingTodos);
-    saveTodos(remainingTodos);
-    toast.success('Deleted task Successfully');
-    console.log(remainingTodos);
+  function handleDeleteTodo(id: string) {
+    deleteTodo(id);
   }
 
-  function getTodoIndex(id: string) {
-    return todos.findIndex((todo) => todo.id === id);
-  }
+  // function getTodoIndex(id: string) {
+  //   return todos.findIndex((todo) => todo.id === id);
+  // }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -121,21 +116,20 @@ function TodoList() {
     const overId = String(over.id);
 
     if (activeId !== overId) {
-      setTodos((todos) => {
-        const oldIndex = getTodoIndex(activeId);
-        const newIndex = getTodoIndex(overId);
-
-        const newArray = arrayMove(todos, oldIndex, newIndex);
-        saveTodos(newArray);
-        return newArray;
-      });
+      // setTodos((todos) => {
+      //   const oldIndex = getTodoIndex(activeId);
+      //   const newIndex = getTodoIndex(overId);
+      //   const newArray = arrayMove(todos, oldIndex, newIndex);
+      //   saveTodos(newArray);
+      //   return newArray;
+      // });
     }
   }
 
   return (
     <div className="w-full max-w-lg mx-auto -mt-50">
       <Header />
-      <Form addTodo={addTodo} />
+      <Form addTodo={addTodo} isAddingTodo={isCreating} />
       <div className="rounded-md shadow-md bg-white dark:bg-[#25273C]">
         {isPending ? (
           <Spinner />
@@ -155,7 +149,8 @@ function TodoList() {
                     key={todo.id}
                     item={todo}
                     onToggleTaskCompleted={toggleTaskCompleted}
-                    onDeleteTask={deleteTodo}
+                    onDeleteTask={handleDeleteTodo}
+                    isTogglingTodo={isEditing}
                   />
                 ))}
               </ul>

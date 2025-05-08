@@ -1,4 +1,4 @@
-import { Todo } from '../types';
+import { NewTodo } from '../types';
 import supabase from './supabase';
 
 export async function getTodos() {
@@ -14,7 +14,7 @@ export async function getTodos() {
   return data;
 }
 
-export async function createEditTodo(newTodo: Todo, id: string) {
+export async function createEditTodo(newTodo: NewTodo, id: string) {
   // A) CREATE
   if (!id) {
     const { data, error } = await supabase
@@ -56,6 +56,20 @@ export async function deleteTodo(id: string) {
     console.error(error);
     throw new Error('Todo could not be deleted');
   }
+}
+
+export async function deleteCompletedTodos() {
+  const { data, error } = await supabase
+    .from('Todos')
+    .delete()
+    .eq('completed', true);
+
+    if (error) {
+      console.error(error);
+      throw new Error('Completed Todos could not be deleted');
+    }
+
+    return data;
 }
 
 export async function getCompletedTodos() {

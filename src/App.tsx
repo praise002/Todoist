@@ -42,7 +42,7 @@ function App() {
           position="top-right"
           toastOptions={{
             className: 'dark:!bg-gray-900 dark:!text-white',
-            duration: 9000,
+            // duration: 9000,
             style: {
               padding: '16px 24px',
               fontSize: '16px',

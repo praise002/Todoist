@@ -8,7 +8,7 @@ export function useEditTodo() {
 
   const { mutate: editTodo, isPending: isEditing } = useMutation({
     mutationFn: ({ newTodo, id }: CreateTodoParams) =>
-      createEditTodo(newTodo, id),
+      createEditTodo(newTodo, id ?? ''),
     onSuccess: () => {
       toast.success('Todo successfully edited');
       // Invalidates todos cache to trigger refresh

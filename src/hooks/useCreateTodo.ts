@@ -7,8 +7,8 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
 
   const { mutate: createTodo, isPending: isCreating } = useMutation({
-    mutationFn: ({ newTodo, id = '' }: CreateTodoParams) =>
-      createEditTodo(newTodo, id),
+    mutationFn: ({ newTodo, id }: CreateTodoParams) =>
+      createEditTodo(newTodo, id ?? ''),
     onSuccess: () => {
       toast.success('New Todo successfully created');
       // Invalidates todos cache to trigger refresh

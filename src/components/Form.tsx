@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { FormProps } from '../types';
 
-function Form({ addTodo }: FormProps) {
+function Form({ addTodo, isAddingTodo }: FormProps) {
   const [text, setText] = useState('');
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -25,6 +25,7 @@ function Form({ addTodo }: FormProps) {
           className="block w-full text-base px-12 py-4 bg-white dark:bg-[#25273C] dark:text-white rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 dark:focus-visible:ring-gray-100"
           value={text}
           onChange={handleChange}
+          disabled={isAddingTodo}
         />
       </label>
     </form>

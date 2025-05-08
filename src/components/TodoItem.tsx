@@ -7,6 +7,7 @@ function TodoItem({
   item,
   onToggleTaskCompleted,
   onDeleteTask,
+  isTogglingTodo,
 }: TodoItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
@@ -28,6 +29,7 @@ function TodoItem({
               type="button"
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 w-4 h-4 p-1"
               onClick={() => onToggleTaskCompleted(item.id)}
+              disabled={isTogglingTodo}
               aria-label="Mark task as completed"
             >
               <img
@@ -41,7 +43,7 @@ function TodoItem({
               {...listeners}
               className="flex items-center w-full justify-between"
             >
-              <p className="line-through text-gray-400">{item.text}</p>
+              <p className="line-through text-gray-400">{item.todo}</p>
             </div>
             <button
               type="button"
@@ -58,6 +60,7 @@ function TodoItem({
               type="button"
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full border border-gray-300 w-4 h-4"
               onClick={() => onToggleTaskCompleted(item.id)}
+              disabled={isTogglingTodo}
               aria-label="Mark task as uncompleted"
             ></button>
             <div
@@ -65,7 +68,7 @@ function TodoItem({
               {...listeners}
               className="flex items-center w-full justify-between"
             >
-              <p>{item.text}</p>
+              <p>{item.todo}</p>
             </div>
             <button
               type="button"

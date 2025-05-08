@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCompletedTodos } from '../services/apiTodos';
 
-export function useTodos() {
+export function useCompletedTodos() {
   const {
     isPending,
     data: completedTodos,

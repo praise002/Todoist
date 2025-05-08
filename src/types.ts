@@ -12,7 +12,7 @@ export interface ErrorFallbackProps {
 
 export interface Todo {
   id: string;
-  text: string;
+  todo: string;
   completed: boolean;
 }
 
@@ -20,12 +20,14 @@ export type NewTodo = Omit<Todo, 'id'>;
 
 export interface FormProps {
   addTodo: (todo: string) => void;
+  isAddingTodo: boolean;
 }
 
 export interface TodoItemProps {
   item: Todo;
   onToggleTaskCompleted: (id: string) => void;
   onDeleteTask: (id: string) => void;
+  isTogglingTodo: boolean;
 }
 
 export type RegisterInputs = {
@@ -49,7 +51,7 @@ export interface ProtectedRouteProps {
 
 export type CreateTodoParams = {
   newTodo: NewTodo;
-  id: string;
+  id?: string;
 };
 
 // hU8zWD8obsxShs3g
