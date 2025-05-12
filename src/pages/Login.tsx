@@ -39,7 +39,7 @@ function Login() {
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="text-blue-600 hover:text-blue-500 font-medium"
+              className="text-blue-400 hover:text-blue-500 font-medium"
             >
               Sign up
             </Link>
@@ -50,18 +50,18 @@ function Login() {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="sr-only">
+            <label htmlFor="email" className="sr-only mb-1">
               Email address
             </label>
             <div className="relative">
               <div className="absolute z-50 inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiMail className="h-5 w-5 text-gray-400" />
+                <FiMail role="presentation" className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="email"
                 type="email"
                 required
-                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
+                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-600 dark:placeholder-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
                 placeholder="Email address"
                 {...register('email', {
                   required: 'Email is required',
@@ -82,18 +82,18 @@ function Login() {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="sr-only">
+            <label htmlFor="password" className="sr-only mb-1">
               Password
             </label>
             <div className="relative">
               <div className="absolute z-50 inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="h-5 w-5 text-gray-400" />
+                <FiLock role="presentation" className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="password"
                 type="password"
                 required
-                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
+                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-600 dark:placeholder-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
                 placeholder="Password"
                 {...register('password', {
                   required: 'Password is required',
@@ -132,7 +132,7 @@ function Login() {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className="font-medium text-blue-400 hover:text-blue-500"
               >
                 Forgot your password?
               </Link>

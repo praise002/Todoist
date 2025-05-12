@@ -14,9 +14,16 @@ export interface Todo {
   id: string;
   todo: string;
   completed: boolean;
+  position: number;
 }
 
-export type NewTodo = Omit<Todo, 'id'>;
+export type NewTodo = Omit<Todo, 'id' | 'position'> & {
+  position?: number;  // Make position optional for new todos
+};
+
+// export type NewTodo = Omit<Todo, 'id'>;
+
+// export type NewTodo = Omit<Todo, 'id' | 'position'>;
 
 export interface FormProps {
   addTodo: (todo: string) => void;
@@ -53,5 +60,7 @@ export type CreateTodoParams = {
   newTodo: NewTodo;
   id?: string;
 };
+
+
 
 // hU8zWD8obsxShs3g

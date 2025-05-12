@@ -26,7 +26,9 @@ import { useTodos } from '../hooks/useTodos.ts';
 import { useCreateTodo } from '../hooks/useCreateTodo.ts';
 import { useEditTodo } from '../hooks/useEditTodo.ts';
 import { useDeleteTodo } from '../hooks/useDeleteTodo.ts';
-import { useDeleteCompletedTodos } from '../hooks/usedeleteCompletedTodos.ts';
+
+import { useReorderTodos } from '../hooks/updateTodosOrder.ts';
+import { useDeleteCompletedTodos } from '../hooks/useDeleteCompletedTodos.ts';
 
 const filterObj = {
   all: {
@@ -59,6 +61,7 @@ function TodoList() {
   const { isEditing, editTodo } = useEditTodo();
   const { deleteTodo } = useDeleteTodo();
   const { clearCompletedTodos } = useDeleteCompletedTodos();
+  const { reorderTodo } = useReorderTodos();
 
   const [filter, setFilter] = useState('All');
 
@@ -90,6 +93,15 @@ function TodoList() {
     createTodo({ newTodo });
   }
 
+  // function addTodo(todo: string) {
+  //   const newTodo = { 
+  //     todo, 
+  //     completed: false, 
+  //     position: todos.length 
+  //   };
+  //   createTodo({ newTodo });
+  // }
+
   function toggleTaskCompleted(id: string) {
     const todo = todos.find((t) => t.id == id);
     if (!todo) return;
@@ -103,9 +115,9 @@ function TodoList() {
     deleteTodo(id);
   }
 
-  // function getTodoIndex(id: string) {
-  //   return todos.findIndex((todo) => todo.id === id);
-  // }
+  function getTodoIndex(id: string) {
+    return todos.findIndex((todo) => todo.id === id);
+  }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -116,13 +128,11 @@ function TodoList() {
     const overId = String(over.id);
 
     if (activeId !== overId) {
-      // setTodos((todos) => {
-      //   const oldIndex = getTodoIndex(activeId);
-      //   const newIndex = getTodoIndex(overId);
-      //   const newArray = arrayMove(todos, oldIndex, newIndex);
-      //   saveTodos(newArray);
-      //   return newArray;
-      // });
+      const oldIndex = getTodoIndex(activeId);
+      const newIndex = getTodoIndex(overId);
+      const newTodos = arrayMove(todos, oldIndex, newIndex);
+      reorderTodo(newTodos);
+      console.log(newTodos);
     }
   }
 

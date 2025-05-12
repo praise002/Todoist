@@ -27,7 +27,7 @@ function TodoItem({
           <>
             <button
               type="button"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 w-4 h-4 p-1"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full  bg-gradient-to-br from-blue-400 to-purple-500 w-4 h-4 p-1"
               onClick={() => onToggleTaskCompleted(item.id)}
               disabled={isTogglingTodo}
               aria-label="Mark task as completed"
@@ -58,7 +58,7 @@ function TodoItem({
           <>
             <button
               type="button"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full border border-gray-300 w-4 h-4"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full border border-gray-600 dark:border-gray-300 w-4 h-4"
               onClick={() => onToggleTaskCompleted(item.id)}
               disabled={isTogglingTodo}
               aria-label="Mark task as uncompleted"

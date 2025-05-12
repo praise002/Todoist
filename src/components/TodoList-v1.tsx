@@ -90,7 +90,7 @@ function TodoList() {
     console.log(remainingTodos);
   }
 
-  function addTodo(text: string) {
+  function addTodo(todo: string) {
     const newTask = { id: crypto.randomUUID(), todo, completed: false };
     // setTodo((prevTodos) => [...prevTodos, newTask]);
     setTodos((prevTodos) => {
@@ -144,7 +144,7 @@ function TodoList() {
   return (
     <div className="w-full max-w-lg mx-auto -mt-50">
       <Header />
-      <Form addTodo={addTodo} />
+      <Form addTodo={addTodo} isAddingTodo={false} />
       <div className="rounded-md shadow-md bg-white dark:bg-[#25273C]">
         {isLoading ? (
           <Spinner />

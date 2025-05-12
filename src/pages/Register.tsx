@@ -41,7 +41,7 @@ function Register() {
             Already have an account?{' '}
             <Link
               to="/login"
-              className="text-blue-600 hover:text-blue-500 font-medium"
+              className="text-blue-400 hover:text-blue-500 font-medium"
             >
               Sign in
             </Link>
@@ -57,13 +57,13 @@ function Register() {
             </label>
             <div className="relative">
               <div className="absolute z-50 inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiUser className="h-5 w-5 text-gray-400" />
+                <FiUser role="presentation" className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="name"
                 type="text"
                 required
-                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
+                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-600 dark:placeholder-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
                 placeholder="Full Name"
                 {...register('name', {
                   required: 'Name is required',
@@ -87,13 +87,13 @@ function Register() {
             </label>
             <div className="relative">
               <div className="absolute z-50 inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiMail className="h-5 w-5 text-gray-400" />
+                <FiMail role="presentation" className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="email"
                 type="email"
                 required
-                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
+                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-600 dark:placeholder-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
                 placeholder="Email address"
                 {...register('email', {
                   required: 'Email is required',
@@ -119,13 +119,13 @@ function Register() {
             </label>
             <div className="relative">
               <div className="absolute z-50 inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="h-5 w-5 text-gray-400" />
+                <FiLock role="presentation" className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="password"
                 type="password"
                 required
-                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
+                className="appearance-none relative block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md placeholder-gray-600 dark:placeholder-gray-300 text-gray-900 dark:text-white dark:bg-gray-700 focus-visible:outline-none focus-visible:ring-blue-500 focus-visible:border-blue-500 sm:text-sm"
                 placeholder="Password"
                 {...register('password', {
                   required: 'Password is required',

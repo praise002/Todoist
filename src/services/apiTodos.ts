@@ -1,10 +1,11 @@
-import { NewTodo } from '../types';
+import { NewTodo, Todo } from '../types';
 import supabase from './supabase';
 
 export async function getTodos() {
   const { data, error } = await supabase
     .from('Todos')
-    .select('id, todo, completed');
+    .select('id, todo, completed, position')
+    .order('position', { ascending: false }); // Sort by 'position' in descending order
 
   if (error) {
     console.error(error);
@@ -17,10 +18,24 @@ export async function getTodos() {
 export async function createEditTodo(newTodo: NewTodo, id: string) {
   // A) CREATE
   if (!id) {
+    // Step 1: Fetch all existing todos to determine their count
+    const { data: existingTodos, error: fetchError } = await supabase
+      .from('Todos')
+      .select('*');
+
+    if (fetchError) {
+      console.error(fetchError);
+      throw new Error('Todos could not be fetched');
+    }
+
+    // Step 2: Calculate the position for the new todo
+    const newPosition = existingTodos ? existingTodos.length + 1 : 1;
+
+    // Step 3: Insert the new todo with the calculated position
     const { data, error } = await supabase
       .from('Todos')
-      .insert([{ ...newTodo }])
-      .select()
+      .insert([{ ...newTodo, position: newPosition }])
+      .select('*')
       .single();
 
     if (error) {
@@ -64,23 +79,46 @@ export async function deleteCompletedTodos() {
     .delete()
     .eq('completed', true);
 
-    if (error) {
-      console.error(error);
-      throw new Error('Completed Todos could not be deleted');
-    }
+  if (error) {
+    console.error(error);
+    throw new Error('Completed Todos could not be deleted');
+  }
 
-    return data;
+  return data;
 }
 
 export async function getCompletedTodos() {
+  const { data, error } = await supabase.from('Todos').select('completed');
+
+  if (error) {
+    console.error(error);
+    throw new Error('Completed Todos could not be fetched');
+  }
+
+  return data;
+}
+
+export async function updateTodosOrder(newOrder: Todo[]) {
+  // const updates = newOrder.map((todo, index) => ({
+  //   id: todo.id,
+  //   position: index + 1,
+  // }));
+  const updates = newOrder.map(({ id, todo, completed }, index) => ({
+    id: id,
+    todo: todo,
+    completed: completed,
+    position: index + 1,
+  }));
+
   const { data, error } = await supabase
     .from('Todos')
-    .select('completed');
+    .upsert(updates, { onConflict: 'id' })
+    .select();
 
-    if (error) {
-      console.error(error);
-      throw new Error('Completed Todos could not be fetched');
-    }
+  if (error) {
+    console.error(error);
+    throw new Error('Could not reorder todos');
+  }
 
-    return data;
+  return data;
 }
