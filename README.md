@@ -89,35 +89,47 @@ A modern, feature-rich todo application built with React, TypeScript, and Supaba
 3. **Set up Supabase**
    - Create a new project at [supabase.com](https://supabase.com)
    - Create the following table in your Supabase dashboard:
+ - 
 
    ```sql
-   CREATE TABLE todos (
-     id BIGSERIAL PRIMARY KEY,
-     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-     task TEXT NOT NULL,
-     completed BOOLEAN DEFAULT FALSE,
-     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-     order_position INTEGER DEFAULT 0
-   );
-
+   create table public."Todos" (
+      id uuid not null default gen_random_uuid (),
+      created_at timestamp with time zone not null default now(),
+      todo character varying not null,
+      completed boolean not null default false,
+      user_id uuid not null default auth.uid (),
+      position smallint not null,
+      constraint Todos_pkey primary key (id),
+      constraint Todos_user_id_fkey foreign KEY (user_id) references auth.users (id) on update CASCADE on delete CASCADE
+    ) TABLESPACE pg_default;
+  
    -- Enable Row Level Security
-   ALTER TABLE todos ENABLE ROW LEVEL SECURITY;
+   ALTER TABLE Todos ENABLE ROW LEVEL SECURITY;
 
    -- Create policies
-   CREATE POLICY "Users can view their own todos" ON todos
+   CREATE POLICY "Users can view their own todos" ON Todos
      FOR SELECT USING (auth.uid() = user_id);
 
-   CREATE POLICY "Users can create their own todos" ON todos
+   CREATE POLICY "Users can create their own todos" ON Todos
      FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-   CREATE POLICY "Users can update their own todos" ON todos
+   CREATE POLICY "Users can update their own todos" ON Todos
      FOR UPDATE USING (auth.uid() = user_id);
 
-   CREATE POLICY "Users can delete their own todos" ON todos
+   CREATE POLICY "Users can delete their own todos" ON Todos
      FOR DELETE USING (auth.uid() = user_id);
    ```
 
-4. Put your supabase key and url in supabse.ts file
+4. **Set up environment variables**
+   - Copy the environment variables template:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the `.env` file with your Supabase credentials:
+     ```env
+     VITE_SUPABASE_URL=your_supabase_project_url
+     VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+     ```
 
 5. **Start the development server**
    ```bash
@@ -146,52 +158,73 @@ A modern, feature-rich todo application built with React, TypeScript, and Supaba
 ## 🏗️ Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-│   ├── BackgroundImage.tsx
-│   ├── ErrorFallback.tsx
-│   ├── Form.tsx
-│   ├── ProtectedRoute.tsx
-│   ├── Spinner.tsx
-│   ├── TodoItem.tsx
-│   └── TodoList.tsx
-├── context/            # React context providers
-│   ├── ThemeContext.tsx
-│   └── ThemeProvider.tsx
-├── hooks/              # Custom React hooks
-│   ├── useCompletedTodos.ts
-│   ├── useCreateTodo.ts
-│   ├── useDeleteCompletedTodos.ts
-│   ├── useDeleteTodo.ts
-│   ├── useEditTodo.ts
-│   ├── useLogin.ts
-│   ├── useLogout.ts
-│   ├── useSignUp.ts
-│   ├── useTodos.ts
-│   ├── useUpdateUser.ts
-│   ├── useUser.ts
-│   └── updateTodosOrder.ts
-├── Layouts/            # Layout components
-│   ├── AppLayout.tsx
-│   ├── Footer.tsx
-│   ├── Header.tsx
-│   └── Navbar.tsx
-├── pages/              # Page components
-│   ├── Home.tsx
-│   ├── Login.tsx
-│   ├── Logout.tsx
-│   └── Register.tsx
-├── services/           # API and external services
-│   ├── apiAuth.ts
-│   ├── apiTodos.ts
-│   └── supabase.ts
-├── utils/              # Utility functions
-│   ├── localStorage.ts
-│   └── todos.ts
-├── images/             # Static assets
-├── App.tsx             # Main app component
-├── main.tsx           # App entry point
-└── types.ts           # TypeScript type definitions
+├── public/             # Static assets
+│   ├── images/         # Background images and screenshots
+│   ├── screenshots/    # App screenshots for documentation
+│   ├── icon-check.svg
+│   ├── icon-cross.svg
+│   ├── icon-moon.svg
+│   ├── icon-sun.svg
+│   └── todoist.svg
+├── src/
+│   ├── components/     # Reusable UI components
+│   │   ├── BackgroundImage.tsx
+│   │   ├── ErrorFallback.tsx
+│   │   ├── Form.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── Spinner.tsx
+│   │   ├── TodoItem.tsx
+│   │   └── TodoList.tsx
+│   ├── context/        # React context providers
+│   │   ├── ThemeContext.tsx
+│   │   └── ThemeProvider.tsx
+│   ├── hooks/          # Custom React hooks
+│   │   ├── updateTodosOrder.ts
+│   │   ├── useCompletedTodos.ts
+│   │   ├── useCreateTodo.ts
+│   │   ├── useDeleteCompletedTodos.ts
+│   │   ├── useDeleteTodo.ts
+│   │   ├── useEditTodo.ts
+│   │   ├── useLogin.ts
+│   │   ├── useLogout.ts
+│   │   ├── useSignUp.ts
+│   │   ├── useTodos.ts
+│   │   ├── useUpdateUser.ts
+│   │   └── useUser.ts
+│   ├── Layouts/        # Layout components
+│   │   ├── AppLayout.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   └── Navbar.tsx
+│   ├── pages/          # Page components
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── Logout.tsx
+│   │   └── Register.tsx
+│   ├── services/       # API and external services
+│   │   ├── apiAuth.ts
+│   │   ├── apiTodos.ts
+│   │   └── supabase.ts
+│   ├── utils/          # Utility functions
+│   │   ├── localStorage.ts
+│   │   └── todos.ts
+│   ├── App.tsx         # Main app component
+│   ├── index.css       # Global styles
+│   ├── main.tsx        # App entry point
+│   ├── types.ts        # TypeScript type definitions
+│   └── vite-env.d.ts   # Vite environment types
+├── .env                # Environment variables (not committed)
+├── .env.example        # Environment variables template
+├── .gitignore          # Git ignore rules
+├── eslint.config.js    # ESLint configuration
+├── index.html          # HTML template
+├── package.json        # Project dependencies and scripts
+├── README.md           # Project documentation
+├── tsconfig.json       # TypeScript base configuration
+├── tsconfig.app.json   # TypeScript app configuration
+├── tsconfig.node.json  # TypeScript Node.js configuration
+├── vercel.json         # Vercel deployment configuration
+└── vite.config.ts      # Vite configuration
 ```
 
 ## 🧪 Available Scripts
