@@ -52,8 +52,8 @@ const FILTER_MAP: Record<string, (todo: Todo) => boolean> = {
 };
 
 const filterValues = Object.values(filterObj);
-console.log(Object.keys(filterObj));
-console.log(Object.values(filterObj));
+// console.log(Object.keys(filterObj));
+// console.log(Object.values(filterObj));
 
 function TodoList() {
   const { isPending, todos = [] } = useTodos();
@@ -93,15 +93,6 @@ function TodoList() {
     createTodo({ newTodo });
   }
 
-  // function addTodo(todo: string) {
-  //   const newTodo = { 
-  //     todo, 
-  //     completed: false, 
-  //     position: todos.length 
-  //   };
-  //   createTodo({ newTodo });
-  // }
-
   function toggleTaskCompleted(id: string) {
     const todo = todos.find((t) => t.id == id);
     if (!todo) return;
@@ -132,7 +123,7 @@ function TodoList() {
       const newIndex = getTodoIndex(overId);
       const newTodos = arrayMove(todos, oldIndex, newIndex);
       reorderTodo(newTodos);
-      console.log(newTodos);
+      // console.log(newTodos);
     }
   }
 

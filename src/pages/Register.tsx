@@ -14,7 +14,7 @@ function Register() {
   } = useForm<RegisterInputs>();
 
   const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
-    console.log(data);
+    // console.log(data);
     signup(
       {
         name: data.name,

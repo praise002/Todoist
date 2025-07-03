@@ -21,7 +21,7 @@ function Navbar() {
     e.preventDefault();
     if (name.trim().length < 1) return;
     setIsEditing(false);
-    console.log(name);
+    // console.log(name);
     updateUser({ displayName: name });
   }
 

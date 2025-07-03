@@ -15,7 +15,7 @@ function Login() {
   } = useForm<LoginInputs>();
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data);
+    // console.log(data);
     if (!data.email || !data.password) return;
     login(
       { email: data.email, password: data.password },
