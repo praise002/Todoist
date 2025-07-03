@@ -33,7 +33,7 @@ function TodoItem({
               aria-label="Mark task as completed"
             >
               <img
-                src="src/images/icon-check.svg"
+                src="/icon-check.svg"
                 className="w-2 h-2"
                 alt="Icon check"
               />

@@ -14,7 +14,7 @@ function Header() {
           aria-label="Toggle theme"
         >
           <img
-            src="src/images/icon-moon.svg"
+            src="/icon-moon.svg"
             className="w-full h-full"
             alt="Icon moon to toggle theme"
           />
@@ -26,7 +26,7 @@ function Header() {
           aria-label="Toggle theme"
         >
           <img
-            src="src/images/icon-sun.svg"
+            src="/icon-sun.svg"
             className="w-full h-full"
             alt="Icon sun to toggle theme"
           />

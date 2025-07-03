@@ -4,7 +4,7 @@ function BackgroundImage() {
       <img
         className="w-full h-[300px]"
         alt="background"
-        src="src/images/bg-desktop-light.jpg"
+        src="/images/bg-desktop-light.jpg"
       />
     </div>
   );
