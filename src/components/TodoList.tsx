@@ -68,11 +68,7 @@ function TodoList() {
   const filteredTodos = todos.filter(FILTER_MAP[filter]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 8, // Require 8px movement to start drag (good for touch)
-      tolerance: 500, // Allow longer press delay
-    },}),
+    useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -148,7 +144,7 @@ function TodoList() {
               items={filteredTodos.map((todo) => todo.id)}
               strategy={verticalListSortingStrategy}
             >
-              <ul>
+              <ul style={{ touchAction: 'none' }}>
                 {filteredTodos.map((todo) => (
                   <TodoItem
                     key={todo.id}
