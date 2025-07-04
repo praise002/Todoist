@@ -68,7 +68,11 @@ function TodoList() {
   const filteredTodos = todos.filter(FILTER_MAP[filter]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 8, // Require 8px movement to start drag (good for touch)
+      tolerance: 500, // Allow longer press delay
+    },}),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
